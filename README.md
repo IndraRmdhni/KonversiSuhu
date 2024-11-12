@@ -11,4 +11,4 @@ Repositori ini berisi berbagai proyek yang telah saya kerjakan selama perkuliaha
 Untuk menjalankan proyek ini, Anda dapat mengkloning repositori ini ke komputer Anda dengan perintah berikut:
 
 ```bash
- https://github.com/IndraRmdhni/AplikasiKonversiSuhu.git
+ https://github.com/IndraRmdhni/KonversiSuhu.git
