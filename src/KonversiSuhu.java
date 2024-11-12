@@ -1,3 +1,6 @@
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +19,36 @@ public class KonversiSuhu extends javax.swing.JFrame {
     public KonversiSuhu() {
         initComponents();
     }
+public double konversiSuhu(double suhu, String SkalaAsal, String SkalaTujuan) {
+    if (SkalaAsal.equals("Celsius") && SkalaTujuan.equals("Fahrenheit")) {
+        return (suhu * 9/5) + 32;
+    } else if (SkalaAsal.equals("Celsius") && SkalaTujuan.equals("Kelvin")) {
+        return suhu + 273.15;
+    } else if (SkalaAsal.equals("Celsius") && SkalaTujuan.equals("Reamur")) {
+        return suhu * 4/5;
+    } else if (SkalaAsal.equals("Fahrenheit") && SkalaTujuan.equals("Celsius")) {
+        return (suhu - 32) * 5/9;
+    } else if (SkalaAsal.equals("Fahrenheit") && SkalaTujuan.equals("Kelvin")) {
+        return (suhu - 32) * 5/9 + 273.15;
+    } else if (SkalaAsal.equals("Fahrenheit") && SkalaTujuan.equals("Reamur")) {
+        return (suhu - 32) * 4/9;
+    } else if (SkalaAsal.equals("Kelvin") && SkalaTujuan.equals("Celsius")) {
+        return suhu - 273.15;
+    } else if (SkalaAsal.equals("Kelvin") && SkalaTujuan.equals("Fahrenheit")) {
+        return (suhu - 273.15) * 9/5 + 32;
+    } else if (SkalaAsal.equals("Kelvin") && SkalaTujuan.equals("Reamur")) {
+        return (suhu - 273.15) * 4/5;
+    } else if (SkalaAsal.equals("Reamur") && SkalaTujuan.equals("Celsius")) {
+        return suhu * 5/4;
+    } else if (SkalaAsal.equals("Reamur") && SkalaTujuan.equals("Fahrenheit")) {
+        return (suhu * 9/4) + 32;
+    } else if (SkalaAsal.equals("Reamur") && SkalaTujuan.equals("Kelvin")) {
+        return (suhu * 5/4) + 273.15;
+    }
+    return suhu; // jika skala asal dan tujuan sama
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,29 +60,40 @@ public class KonversiSuhu extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        InputSuhu = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        SkalaAsal = new javax.swing.JComboBox<>();
+        SkalaTujuan = new javax.swing.JComboBox<>();
+        Ksuhu = new javax.swing.JButton();
+        Hasil = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Suhu");
 
+        InputSuhu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                InputSuhuKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Skala Asal");
 
         jLabel3.setText("Skala Tujuan");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        SkalaAsal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celsius", "Fahrenheit", "Reamur", "Kelvin" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        SkalaTujuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celsius", "Fahrenheit", "Reamur", "Kelvin" }));
 
-        jButton1.setText("Konversi");
+        Ksuhu.setText("Konversi");
+        Ksuhu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KsuhuActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setText("Hasil Konversi");
+        Hasil.setText("Hasil Konversi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,17 +106,17 @@ public class KonversiSuhu extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addGap(18, 18, 18)
-                            .addComponent(jComboBox2, 0, 90, Short.MAX_VALUE))
+                            .addComponent(SkalaTujuan, 0, 90, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1)
                                 .addComponent(jLabel2))
                             .addGap(33, 33, 33)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField1)
-                                .addComponent(jComboBox1, 0, 91, Short.MAX_VALUE))))
-                    .addComponent(jButton1)
-                    .addComponent(jLabel4))
+                                .addComponent(InputSuhu)
+                                .addComponent(SkalaAsal, 0, 91, Short.MAX_VALUE))))
+                    .addComponent(Ksuhu)
+                    .addComponent(Hasil))
                 .addContainerGap(205, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -81,24 +125,44 @@ public class KonversiSuhu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(InputSuhu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SkalaAsal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SkalaTujuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(Ksuhu)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addComponent(Hasil)
                 .addContainerGap(108, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void KsuhuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KsuhuActionPerformed
+            try {
+        double suhu = Double.parseDouble(InputSuhu.getText());
+        String skalaAsal = SkalaAsal.getSelectedItem().toString();
+        String skalaTujuan = SkalaTujuan.getSelectedItem().toString();
+        
+        double hasil = konversiSuhu(suhu, skalaAsal, skalaTujuan);
+        Hasil.setText(String.format("%.2f", hasil)); // Menampilkan hasil pada JLabel
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Input tidak valid. Masukkan angka saja.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_KsuhuActionPerformed
+
+    private void InputSuhuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_InputSuhuKeyTyped
+        char c = evt.getKeyChar();
+if (!Character.isDigit(c)) {
+    evt.consume();
+}
+    }//GEN-LAST:event_InputSuhuKeyTyped
 
     /**
      * @param args the command line arguments
@@ -136,13 +200,17 @@ public class KonversiSuhu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel Hasil;
+    private javax.swing.JTextField InputSuhu;
+    private javax.swing.JButton Ksuhu;
+    private javax.swing.JComboBox<String> SkalaAsal;
+    private javax.swing.JComboBox<String> SkalaTujuan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private double konversiSuhu(JTextField InputSuhu, JComboBox<String> SkalaAsal, JComboBox<String> SkalaTujuan) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
